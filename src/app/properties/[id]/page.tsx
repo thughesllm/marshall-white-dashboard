@@ -4,7 +4,11 @@ import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
   const properties = loadProperties();
-  return properties.map((p) => ({ id: p.propertyId }));
+  return properties
+    .filter(
+      (p) => p.listingStatus !== "lease" && p.listingStatus !== "leased"
+    )
+    .map((p) => ({ id: p.propertyId }));
 }
 
 export default async function PropertyDetailPage({

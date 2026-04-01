@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowUpDown, Filter } from "lucide-react";
+import { ArrowUpDown, Filter, User } from "lucide-react";
 import { Property } from "@/types/property";
 import { StatusBadge } from "./status-badge";
 import { Button } from "@/components/ui/button";
@@ -66,9 +66,16 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [agentFilter, setAgentFilter] = useState("All");
   const [sortKey, setSortKey] = useState<SortKey>("marketingLiveDate");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [page, setPage] = useState(0);
+
+  const agents = useMemo(
+    () =>
+      [...new Set(properties.map((p) => p.agent1Name).filter(Boolean))].sort(),
+    [properties]
+  );
 
   function handleSort(key: SortKey) {
     if (sortKey === key) {
@@ -90,7 +97,9 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
         p.addressSuburb.toLowerCase().includes(q);
       const matchesStatus =
         statusFilter === "All" || p.displayStatus === statusFilter;
-      return matchesSearch && matchesStatus;
+      const matchesAgent =
+        agentFilter === "All" || p.agent1Name === agentFilter;
+      return matchesSearch && matchesStatus && matchesAgent;
     });
   }, [properties, search, statusFilter]);
 
@@ -159,13 +168,31 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
-            {["All", "For Sale", "Under Offer", "Sold", "For Lease", "Leased"].map(
-              (s) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              )
-            )}
+            {["All", "For Sale", "Under Offer", "Sold"].map((s) => (
+              <SelectItem key={s} value={s}>
+                {s}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select
+          value={agentFilter}
+          onValueChange={(v) => {
+            setAgentFilter(v as string);
+            setPage(0);
+          }}
+        >
+          <SelectTrigger className="w-52">
+            <User className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
+            <SelectValue placeholder="Filter by agent" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All Agents</SelectItem>
+            {agents.map((a) => (
+              <SelectItem key={a} value={a}>
+                {a}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <span className="text-sm text-muted-foreground ml-auto">

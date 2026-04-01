@@ -82,7 +82,7 @@ function transformRow(row: Record<string, string>): Property {
     remoteId: cleanString(row.remote_id),
     slug: cleanString(row.slug),
     title: cleanString(row.title),
-    propertyUrl: cleanString(row.property_url),
+    propertyUrl: cleanString(row.property_url).replace(/\\\\?1$/, ''),
     displayAddress: cleanString(row.display_address),
     addressSuburb: cleanString(row.address_suburb),
     addressPostcode: cleanString(row.address_postcode),

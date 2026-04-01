@@ -609,46 +609,19 @@ export function PropertyDetail({ property }: { property: Property }) {
       </Card>
 
       {/* 9. External links */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">External Links</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          {property.propertyUrl && (
-            <a
-              href={property.propertyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-blue-600 hover:underline"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              View on marshallwhite.com.au
-            </a>
-          )}
-          {property.portalIdRea && (
-            <a
-              href={`https://www.realestate.com.au/${property.portalIdRea}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-blue-600 hover:underline"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              View on realestate.com.au
-            </a>
-          )}
-          {property.portalIdDomain && (
-            <a
-              href={`https://www.domain.com.au/${property.portalIdDomain}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-blue-600 hover:underline"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              View on domain.com.au
-            </a>
-          )}
-        </CardContent>
-      </Card>
+      {property.propertyUrl && (
+        <div className="mb-4">
+          <a
+            href={property.propertyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:underline"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            View on marshallwhite.com.au
+          </a>
+        </div>
+      )}
     </div>
   );
 }
