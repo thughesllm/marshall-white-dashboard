@@ -13,7 +13,7 @@ export function ImageGallery({ images }: { images: string[] }) {
   return (
     <div className="space-y-2">
       {/* Hero image */}
-      <div className="relative w-full overflow-hidden rounded-xl" style={{ aspectRatio: "16/10" }}>
+      <div className="relative w-full overflow-hidden rounded-xl aspect-video">
         <Image
           src={selectedImage}
           alt={`Property image ${selectedIndex + 1}`}
