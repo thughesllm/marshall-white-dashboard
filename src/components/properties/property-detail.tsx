@@ -118,18 +118,29 @@ function AgentCard({
   position,
   mobile,
   email,
+  photo,
 }: {
   name: string;
   position?: string;
   mobile?: string;
   email?: string;
+  photo?: string;
 }) {
   if (!name) return null;
   return (
     <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-3">
-      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
-        <User className="h-5 w-5 text-gray-500" />
-      </div>
+      {photo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={photo}
+          alt={name}
+          className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
+        />
+      ) : (
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
+          <User className="h-5 w-5 text-gray-500" />
+        </div>
+      )}
       <div className="min-w-0 flex-1 space-y-0.5">
         <p className="font-semibold leading-tight">{name}</p>
         {position && (
@@ -369,6 +380,7 @@ export function PropertyDetail({ property }: { property: Property }) {
               position={property.agent1Position}
               mobile={property.agent1Mobile}
               email={property.agent1Email}
+              photo={property.agent1Photo}
             />
           )}
           {property.agent2Name && (
@@ -377,10 +389,17 @@ export function PropertyDetail({ property }: { property: Property }) {
               position={property.agent2Position}
               mobile={property.agent2Mobile}
               email={property.agent2Email}
+              photo={property.agent2Photo}
             />
           )}
           {property.agent3Name && (
-            <AgentCard name={property.agent3Name} />
+            <AgentCard
+              name={property.agent3Name}
+              position={property.agent3Position}
+              mobile={property.agent3Mobile}
+              email={property.agent3Email}
+              photo={property.agent3Photo}
+            />
           )}
         </div>
       </div>

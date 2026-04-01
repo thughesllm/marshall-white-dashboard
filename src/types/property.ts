@@ -84,7 +84,14 @@ export interface Property {
   agent2Mobile: string;
   agent2Phone: string;
   agent2Position: string;
+  agent2Photo: string;
   agent3Name: string;
+  agent3Email: string;
+  agent3Mobile: string;
+  agent3Phone: string;
+  agent3Position: string;
+  agent3Photo: string;
+  agent1Photo: string;
   nbnAvailable: boolean;
   nbnType: string;
   nbnTech: string;
