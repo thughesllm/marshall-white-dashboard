@@ -173,6 +173,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
       </div>
 
       {/* Table */}
+      <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
@@ -182,11 +183,11 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
             <TableHead>
               <SortHeader label="Status" col="displayStatus" />
             </TableHead>
-            <TableHead>Office</TableHead>
+            <TableHead className="hidden md:table-cell">Office</TableHead>
             <TableHead>
               <SortHeader label="Lead Agent" col="agent1Name" />
             </TableHead>
-            <TableHead>
+            <TableHead className="hidden md:table-cell">
               <SortHeader label="Listed" col="marketingLiveDate" />
             </TableHead>
             <TableHead>
@@ -228,9 +229,9 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
                   <TableCell>
                     <StatusBadge status={p.displayStatus} />
                   </TableCell>
-                  <TableCell>{p.office}</TableCell>
+                  <TableCell className="hidden md:table-cell">{p.office}</TableCell>
                   <TableCell>{p.agent1Name}</TableCell>
-                  <TableCell>{formatDate(p.marketingLiveDate)}</TableCell>
+                  <TableCell className="hidden md:table-cell">{formatDate(p.marketingLiveDate)}</TableCell>
                   <TableCell>
                     <span className={daysColour(p.daysOnMarket)}>
                       {p.daysOnMarket}
@@ -256,6 +257,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
           )}
         </TableBody>
       </Table>
+      </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
