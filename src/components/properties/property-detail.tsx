@@ -8,7 +8,7 @@ import { StatusBadge } from "./status-badge";
 import { RescueBadge } from "./rescue-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import {
@@ -250,6 +250,18 @@ export function PropertyDetail({ property }: { property: Property }) {
           <span className="flex items-center gap-1">
             <Home className="h-3.5 w-3.5" /> {property.propertyType}
           </span>
+          {priceDisplay && (
+            <>
+              <span className="text-border">·</span>
+              <span className="font-medium text-foreground">{priceDisplay}</span>
+            </>
+          )}
+          {property.publishDate && (
+            <>
+              <span className="text-border">·</span>
+              <span>Listed {formatDate(property.publishDate)}</span>
+            </>
+          )}
         </div>
       </div>
 
@@ -373,81 +385,31 @@ export function PropertyDetail({ property }: { property: Property }) {
         </div>
       </div>
 
-      {/* 7. Property summary */}
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle className="text-base">Property Summary</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          {priceDisplay && (
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Price</span>
-              <span className="font-medium">{priceDisplay}</span>
-            </div>
-          )}
-
-          {property.publishDate && (
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Listed</span>
-              <span>{formatDate(property.publishDate)}</span>
-            </div>
-          )}
-
-          {property.saleType && (
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Sale Method</span>
-              <span>{property.saleType}</span>
-            </div>
-          )}
-
-          {property.underContract && (
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Contract</span>
-              <Badge className="bg-amber-500 text-white hover:bg-amber-500">Under Offer</Badge>
-            </div>
-          )}
-
-          {property.listingStatus === "sold" && (
-            <>
-              {property.soldDate && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Sold Date</span>
-                  <span>{formatDate(property.soldDate)}</span>
-                </div>
-              )}
-              {property.soldPriceDisplay && property.soldPrice && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Sold Price</span>
-                  <span className="font-medium">{formatAUD(parseFloat(property.soldPrice) || 0)}</span>
-                </div>
-              )}
-              {property.soldMethod && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Sold Method</span>
-                  <span>{property.soldMethod}</span>
-                </div>
-              )}
-            </>
-          )}
-
-          {property.listingStatus === "leased" && (
-            <>
-              {property.rentedDate && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Leased Date</span>
-                  <span>{formatDate(property.rentedDate)}</span>
-                </div>
-              )}
-              {property.rentedPrice && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Rent</span>
-                  <span>{property.rentedPrice}{property.rentedPeriod && ` / ${property.rentedPeriod}`}</span>
-                </div>
-              )}
-            </>
-          )}
-        </CardContent>
-      </Card>
+      {/* 7. Sold details (only for sold properties) */}
+      {property.listingStatus === "sold" && (property.soldDate || (property.soldPriceDisplay && property.soldPrice)) && (
+        <Card className="mb-4">
+          <CardContent className="pt-4 space-y-2 text-sm">
+            {property.soldDate && (
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Sold Date</span>
+                <span>{formatDate(property.soldDate)}</span>
+              </div>
+            )}
+            {property.soldPriceDisplay && property.soldPrice && (
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Sold Price</span>
+                <span className="font-medium">{formatAUD(parseFloat(property.soldPrice) || 0)}</span>
+              </div>
+            )}
+            {property.soldMethod && (
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Sold Method</span>
+                <span>{property.soldMethod}</span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* 8. Collapsible Listing Details */}
       <Card className="mb-4">
