@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowUpDown } from "lucide-react";
 import { Property } from "@/types/property";
@@ -54,6 +55,7 @@ function splitAddress(displayAddress: string): { street: string; rest: string } 
 }
 
 export function RescueTable({ properties }: { properties: Property[] }) {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("daysOnMarket");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -168,7 +170,11 @@ export function RescueTable({ properties }: { properties: Property[] }) {
             pageRows.map((p) => {
               const { street, rest } = splitAddress(p.displayAddress);
               return (
-                <TableRow key={p.propertyId}>
+                <TableRow
+                  key={p.propertyId}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => router.push(`/properties/${p.propertyId}`)}
+                >
                   <TableCell>
                     <Link
                       href={`/properties/${p.propertyId}`}
