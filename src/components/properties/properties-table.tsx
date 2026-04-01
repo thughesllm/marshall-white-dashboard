@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Filter } from "lucide-react";
 import { Property } from "@/types/property";
 import { StatusBadge } from "./status-badge";
 import { Button } from "@/components/ui/button";
@@ -155,7 +155,8 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
           }}
         >
           <SelectTrigger className="w-44">
-            <SelectValue placeholder="Status" />
+            <Filter className="h-3.5 w-3.5 mr-1.5 text-muted-foreground" />
+            <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
             {["All", "For Sale", "Under Offer", "Sold", "For Lease", "Leased"].map(
