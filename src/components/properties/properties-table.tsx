@@ -101,7 +101,7 @@ export function PropertiesTable({ properties }: { properties: Property[] }) {
         agentFilter === "All" || p.agent1Name === agentFilter;
       return matchesSearch && matchesStatus && matchesAgent;
     });
-  }, [properties, search, statusFilter]);
+  }, [properties, search, statusFilter, agentFilter]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {

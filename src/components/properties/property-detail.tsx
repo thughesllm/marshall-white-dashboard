@@ -29,8 +29,6 @@ import {
 
 // ── helpers ────────────────────────────────────────────────────────────────
 
-const ACTIVE_LISTING_STATUSES = ["sale", "now-selling", "lease"];
-
 function formatAUD(num: number): string {
   return new Intl.NumberFormat("en-AU", {
     style: "currency",
@@ -173,7 +171,6 @@ function AgentCard({
 
 export function PropertyDetail({ property }: { property: Property }) {
   const [showListingDetails, setShowListingDetails] = useState(false);
-  const isActive = ACTIVE_LISTING_STATUSES.includes(property.listingStatus);
 
   // Price logic
   const soldAndDisplayable =
@@ -288,19 +285,17 @@ export function PropertyDetail({ property }: { property: Property }) {
                 ))}
               </div>
             </div>
-            {isActive && (
-              <Button
-                className="w-full bg-[#002a52] text-white hover:bg-[#002a52]/90 py-5 text-base font-semibold"
-                onClick={() => toast("Campaign ordering coming soon")}
-              >
-                Order Campaign
-              </Button>
-            )}
+            <Button
+              className="w-full bg-[#002a52] text-white hover:bg-[#002a52]/90 py-5 text-base font-semibold"
+              onClick={() => toast("Campaign ordering coming soon")}
+            >
+              Order Campaign
+            </Button>
           </CardContent>
         </Card>
       )}
 
-      {!property.isRescue && isActive && (
+      {!property.isRescue && (
         <div className="mb-4">
           <Button
             className="w-full bg-[#002a52] text-white hover:bg-[#002a52]/90 py-5 text-base font-semibold"
